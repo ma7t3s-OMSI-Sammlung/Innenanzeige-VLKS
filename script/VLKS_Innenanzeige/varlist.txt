@@ -1,5 +1,8 @@
 VLKS_Innenanzeige_Daueranimation
+VLKS_Innenanzeige_Power
 VLKS_Innenanzeige_Boot
 VLKS_Innenanzeige_BootTimer
 VLKS_Innenanzeige_visT
 VLKS_Innenanzeige_Stop
+VLKS_Innenanzeige_StopVis
+VLKS_Innenanzeige_StopTimer

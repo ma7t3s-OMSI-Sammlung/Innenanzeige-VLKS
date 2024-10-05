@@ -1,0 +1,3 @@
+[const]
+VLKS_Innenanzeige_Config_EnableDelay
+1

@@ -1,15 +1,10 @@
 {macro:VLKS_Innenanzeige_init}
     1 (S.L.VLKS_Innenanzeige_Daueranimation)
-
 {end}
 
 {macro:VLKS_Innenanzeige_frame}
-' Testzwecke
-    "Große Haltestelle" (S.$.VLKS_Innenanzeige_NextBusstopBig)
-    "Nächste Haltestelle" (S.$.VLKS_Innenanzeige_NextBusstop)
-
 ' Prüfen, ob Stromversorgung besteht
-    (L.L.elec_busbar_main) !
+    (L.L.VLKS_Innenanzeige_Power) !
     {if}
 ' Wenn nein, ausschalten (Boot = 0)
         0 (S.L.VLKS_Innenanzeige_Boot)
@@ -21,7 +16,7 @@
         {endif}
     {endif}
 
-' HIER KOMMT DIE "BACKEND" LOGIK HIN
+    (M.L.VLKS_Innenanzeige_ports)
 
 ' Handler, der die richtige Freetex und vis-Variablen setzt 
     (M.L.VLKS_Innenanzeige_updateScreen)    
@@ -32,7 +27,7 @@
 ' Außerdem Boot-Timer zurücksetzen
     (L.L.VLKS_Innenanzeige_Boot) 0 =
     {if}
-        "Screen_schwarz.dds" (S.$.VLKS_Innenanzeige_Freetex)
+        "VLKS_Innenanzeige\Screen_schwarz.dds" (S.$.VLKS_Innenanzeige_Freetex)
         0 (S.L.VLKS_Innenanzeige_visT) (S.L.VLKS_Innenanzeige_BootTimer)
     {else}
 ' Wenn aktuell hochgefahren wird (Boot = 1), führe den Boot-Handler aus
@@ -40,10 +35,50 @@
         {if}
             (M.L.VLKS_Innenanzeige_Boot)
         {else}
-' Sonst zeige Blanko ein
-' HIER KOMMT DIE "FRONTEND" LOGIK HIN
+
+            (L.L.VLKS_Innenanzeige_StopTimer) (L.S.Timegap) + 2 % (S.L.VLKS_Innenanzeige_StopTimer)
+
             1 (S.L.VLKS_Innenanzeige_visT)
-            "VLKS_Innenanzeige\Screen_Blanko.dds" (S.$.VLKS_Innenanzeige_Freetex)
+
+' TODO: Verspätung/Abfahrtszeit nur anzeigen, wenn man im Drucker auch eingeloggt ist!
+
+            (L.L.schedule_active)
+            (C.L.VLKS_Innenanzeige_Config_EnableDelay) &&
+            {if}
+                (M.V.GetTTDelay) 60 / s0
+                -1 <=
+                {if}
+                    (M.V.GetTTBusstopIndex) 0 =
+                    {if}
+                        "VLKS_Innenanzeige\Screen_Abfahrt"
+                    {else}
+                        "VLKS_Innenanzeige\Screen_Verfruehung"
+                    {endif}
+                {else}
+                    l0 5 >=
+                    {if}
+                        "VLKS_Innenanzeige\Screen_Verspaetung_Rot"
+                    {else}
+                        "VLKS_Innenanzeige\Screen_Verspaetung_Blau"
+                    {endif}
+                {endif}
+            {else}
+                "VLKS_Innenanzeige\Screen_Blanko"
+            {endif}
+
+            (L.L.VLKS_Innenanzeige_Stop)
+            (L.L.VLKS_Innenanzeige_StopTimer) 1 < &&
+            {if}
+                "_W" $+
+            {endif}
+            ".dds" $+ (S.$.VLKS_Innenanzeige_Freetex)
+
+            (L.L.VLKS_Innenanzeige_Stop) 1 + (S.L.VLKS_Innenanzeige_StopVis)
+
+            (L.L.schedule_active)
+            {if}
+                l0 abs trunc $IntToStr (S.$.VLKS_Innenanzeige_Delay)
+            {endif}
         {endif}
     {endif}
 {end}
@@ -74,4 +109,25 @@
         {endif}
     {endif}
     (S.$.VLKS_Innenanzeige_Freetex)
+{end}
+
+'Dieses Makro dient zum übergeben von Daten an die Anzeige
+{macro:VLKS_Innenanzeige_ports}
+' Stromversorgung
+    (L.L.elec_busbar_main) (S.L.VLKS_Innenanzeige_Power)
+
+' Liniennumer
+    (L.$.nuntius_api_lineStr) (S.$.VLKS_Innenanzeige_Line)
+
+' Terminus
+    (L.$.nuntius_api_terminusStr) (S.$.VLKS_Innenanzeige_Terminus)
+
+' Haltestellenfolge
+    (L.$.nuntius_api_busstop0) (S.$.VLKS_Innenanzeige_NextBusstop) (S.$.VLKS_Innenanzeige_NextBusstopBig)
+    (L.$.nuntius_api_busstop1) (S.$.VLKS_Innenanzeige_FollowingBusstop1)
+    (L.$.nuntius_api_busstop2) (S.$.VLKS_Innenanzeige_FollowingBusstop2)
+    (L.$.nuntius_api_busstop3) (S.$.VLKS_Innenanzeige_FollowingBusstop3)
+
+' Haltewunsch
+    (L.L.haltewunsch_Signal) (S.L.VLKS_Innenanzeige_Stop)
 {end}
