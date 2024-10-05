@@ -1,0 +1,9 @@
+VLKS_Innenanzeige_Freetex
+VLKS_Innenanzeige_NextBusstop
+VLKS_Innenanzeige_FollowingBusstop1
+VLKS_Innenanzeige_FollowingBusstop2
+VLKS_Innenanzeige_FollowingBusstop3
+VLKS_Innenanzeige_Terminus
+VLKS_Innenanzeige_Line
+VLKS_Innenanzeige_Delay
+VLKS_Innenanzeige_NextBusstopBig

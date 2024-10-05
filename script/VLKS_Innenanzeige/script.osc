@@ -1,0 +1,77 @@
+{macro:VLKS_Innenanzeige_init}
+    1 (S.L.VLKS_Innenanzeige_Daueranimation)
+
+{end}
+
+{macro:VLKS_Innenanzeige_frame}
+' Testzwecke
+    "Große Haltestelle" (S.$.VLKS_Innenanzeige_NextBusstopBig)
+    "Nächste Haltestelle" (S.$.VLKS_Innenanzeige_NextBusstop)
+
+' Prüfen, ob Stromversorgung besteht
+    (L.L.elec_busbar_main) !
+    {if}
+' Wenn nein, ausschalten (Boot = 0)
+        0 (S.L.VLKS_Innenanzeige_Boot)
+    {else}
+' Wenn noch ausgeschalet, Bootvorgang starten
+        (L.L.VLKS_Innenanzeige_Boot) 0 =
+        {if}
+            1 (S.L.VLKS_Innenanzeige_Boot)
+        {endif}
+    {endif}
+
+' HIER KOMMT DIE "BACKEND" LOGIK HIN
+
+' Handler, der die richtige Freetex und vis-Variablen setzt 
+    (M.L.VLKS_Innenanzeige_updateScreen)    
+{end}
+
+{macro:VLKS_Innenanzeige_updateScreen}
+' Wenn ausgeschaltet, setze schwarze Textur und deaktiviere alle Textfelder
+' Außerdem Boot-Timer zurücksetzen
+    (L.L.VLKS_Innenanzeige_Boot) 0 =
+    {if}
+        "Screen_schwarz.dds" (S.$.VLKS_Innenanzeige_Freetex)
+        0 (S.L.VLKS_Innenanzeige_visT) (S.L.VLKS_Innenanzeige_BootTimer)
+    {else}
+' Wenn aktuell hochgefahren wird (Boot = 1), führe den Boot-Handler aus
+        (L.L.VLKS_Innenanzeige_Boot) 1 =
+        {if}
+            (M.L.VLKS_Innenanzeige_Boot)
+        {else}
+' Sonst zeige Blanko ein
+' HIER KOMMT DIE "FRONTEND" LOGIK HIN
+            1 (S.L.VLKS_Innenanzeige_visT)
+            "VLKS_Innenanzeige\Screen_Blanko.dds" (S.$.VLKS_Innenanzeige_Freetex)
+        {endif}
+    {endif}
+{end}
+
+' Boot-Handler
+{macro:VLKS_Innenanzeige_Boot}
+    (L.L.VLKS_Innenanzeige_BootTimer) (L.S.Timegap) + (S.L.VLKS_Innenanzeige_BootTimer) s0
+
+    l0 1 <
+    {if}
+        "VLKS_Innenanzeige\Screen_schwarz.dds"
+    {else}
+        l0 5 <
+        {if}
+            "VLKS_Innenanzeige\Screen_Boot_1.dds"
+        {else}
+            l0 10 <
+            {if}
+                "VLKS_Innenanzeige\Screen_Boot_2.dds"
+            {else}
+                l0 15 <
+                {if}
+                    "VLKS_Innenanzeige\Screen_Boot_4.dds"
+                {else}
+                    2 (S.L.VLKS_Innenanzeige_Boot)
+                {endif}
+            {endif}
+        {endif}
+    {endif}
+    (S.$.VLKS_Innenanzeige_Freetex)
+{end}

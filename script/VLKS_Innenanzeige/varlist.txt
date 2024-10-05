@@ -1,0 +1,5 @@
+VLKS_Innenanzeige_Daueranimation
+VLKS_Innenanzeige_Boot
+VLKS_Innenanzeige_BootTimer
+VLKS_Innenanzeige_visT
+VLKS_Innenanzeige_Stop
