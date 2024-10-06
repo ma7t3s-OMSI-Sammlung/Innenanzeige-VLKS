@@ -45,6 +45,8 @@
             (L.L.schedule_active)
             (C.L.VLKS_Innenanzeige_Config_EnableDelay) &&
             {if}
+                l0 abs trunc $IntToStr (S.$.VLKS_Innenanzeige_Delay)
+
                 (M.V.GetTTDelay) 60 / s0
                 -1 <=
                 {if}
@@ -74,11 +76,6 @@
             ".dds" $+ (S.$.VLKS_Innenanzeige_Freetex)
 
             (L.L.VLKS_Innenanzeige_Stop) 1 + (S.L.VLKS_Innenanzeige_StopVis)
-
-            (L.L.schedule_active)
-            {if}
-                l0 abs trunc $IntToStr (S.$.VLKS_Innenanzeige_Delay)
-            {endif}
         {endif}
     {endif}
 {end}
