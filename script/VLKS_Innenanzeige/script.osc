@@ -19,7 +19,7 @@
     (M.L.VLKS_Innenanzeige_ports)
 
 ' Handler, der die richtige Freetex und vis-Variablen setzt 
-    (M.L.VLKS_Innenanzeige_updateScreen)    
+    (M.L.VLKS_Innenanzeige_updateScreen)
 {end}
 
 {macro:VLKS_Innenanzeige_updateScreen}
@@ -45,8 +45,6 @@
             (L.L.schedule_active)
             (C.L.VLKS_Innenanzeige_Config_EnableDelay) &&
             {if}
-                l0 abs trunc $IntToStr (S.$.VLKS_Innenanzeige_Delay)
-
                 (M.V.GetTTDelay) 60 / s0
                 -1 <=
                 {if}
@@ -64,6 +62,7 @@
                         "VLKS_Innenanzeige\Screen_Verspaetung_Blau"
                     {endif}
                 {endif}
+				l0 abs trunc $IntToStr (S.$.VLKS_Innenanzeige_Delay)
             {else}
                 "VLKS_Innenanzeige\Screen_Blanko"
             {endif}
