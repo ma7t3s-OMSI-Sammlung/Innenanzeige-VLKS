@@ -5,7 +5,8 @@
 Dies ist eine fiktive TFT-Innenanzeige für die VLKS Landkreis Stein. Das Vorbild ist der Innenmonitor der VKP im Kreis Plön.
 
 ## Aktueller Stand
-Die Innenanzeige kann bereits eingebaut werden. Texturen, Model und Textfelder sind bereits fertig bzw. korrekt konfiguriert. Das Script ist bisher unvollständig. Es kann lediglich booten.
+Die Innenanzeige kann bereits eingebaut werden. Texturen, Model und Textfelder sind bereits fertig bzw. korrekt konfiguriert. Das Script ist bisher unvollständig. ~~Es kann lediglich booten.~~ Mittlerweile kann es auch die Haltestellen korrekt anzeigen und den Haltewunsch darstellen. Die Vollbildansicht der nächsten Haltestelle geht aber noch nicht.
+**Achtung:** Derzeit nur mit [Nuntius](https://github.com/ma7t3s-OMSI-Sammlung/Nuntius) kompatibel!
 
 ## Installation/Einbau
 Die Innenanzeige kann wiefolgt in einen Bus eingebaut werden:
