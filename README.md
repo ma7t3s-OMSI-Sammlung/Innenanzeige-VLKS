@@ -16,7 +16,7 @@ Die Innenanzeige kann wiefolgt in einen Bus eingebaut werden:
 3. Scripte in die Bus-Datei einfügen:
     - "script\VLKS_Innenanzeige\varlist.txt" unter [varnamelist]
     - "script\VLKS_Innenanzeige\stringvarlist.txt" unter [stringvarnamelist]
-    - "script\VLKS_Innenanzeige\script.txt" unter [script]
+    - "script\VLKS_Innenanzeige\script.osc" unter [script]
     - "script\VLKS_Innenanzeige\constfile.txt" unter [constfile]
 4. Folgende Macroaufrufe in der main.osc des Busses einfügen:
     - (M.L.VLKS_Innenanzeige_init) im {init}-Bereich
